@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
 from starlette.requests import Request
-from .database import SessionLocal, get_or_create_user
+from database import SessionLocal, get_or_create_user
 
 
 app = FastAPI()
@@ -26,14 +26,14 @@ oauth.register(
     client_kwargs={'scope': 'email profile'}
 )
 
-@app.route('/login/')
+@app.get('/login/')
 async def login(request: Request):
     # Generate the Google OAuth2 authorization URL and redirect user
     redirect_uri = GOOGLE_REDIRECT_URI
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
 
-@app.route('/auth/')
+@app.get('/auth/')
 async def authorize(request: Request):
     try:
         # Fetch the access token
