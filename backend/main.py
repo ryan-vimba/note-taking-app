@@ -42,13 +42,15 @@ async def auth(request: Request, code: str):
         'client_id': GOOGLE_CLIENT_ID,
         'client_secret': GOOGLE_CLIENT_SECRET,
         'code': code,
-        'redirect_uri': GOOGLE_REDIRECT_URI,
+        'redirect_uri': "postmessage",
         'grant_type': 'authorization_code'
     }
 
     # Make the POST request to get the tokens
     response = httpx.post(token_endpoint, data=payload)
     token_data = response.json()
+    print(token_data)
+    print(response)
 
     # Extract the access token and ID token
     access_token = token_data.get('access_token')
