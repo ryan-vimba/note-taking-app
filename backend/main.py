@@ -32,24 +32,6 @@ async def login(request: Request):
     redirect_uri = GOOGLE_REDIRECT_URI
     return await oauth.google.authorize_redirect(request, redirect_uri)
 
-@app.route('/auth/')
-async def authorize(request: Request):
-    try:
-        # Fetch the access token
-        token = await oauth.google.authorize_access_token(request)
-
-        # Fetch the user's info using the access token
-        user = await oauth.google.parse_id_token(request, token)
-        
-        # At this point, you can check if this user exists in your database
-        # If they don't, create a new user record
-        # Also, you might want to create a session or JWT token to keep the user logged in
-
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-    return {"message": "Successfully authenticated", "user": user}
-
 
 @app.route('/auth/')
 async def authorize(request: Request):
